@@ -2,12 +2,14 @@ import 'dart:math';
 
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:jams/src/core/constants/app_color.dart';
+import 'package:jams/src/core/constants/app_constants.dart';
 import 'package:jams/src/core/constants/app_dimen.dart';
-import 'package:jams/src/data/vos/book_vo.dart';
+import 'package:jams/src/features/global/search_widget.dart';
+import 'package:jams/src/features/home/completed_books.dart';
+import 'package:jams/src/features/home/ongoing_books.dart';
 import 'package:jams/src/features/home/widgets/carousel_book.dart';
+import 'package:jams/src/features/home/widgets/carousel_page_view.dart';
 import 'package:jams/src/persistence/daos/book_dao.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,43 +22,36 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final BookDao _bookDao = BookDao();
-  final PageController _carouselController = PageController(viewportFraction: 0.5);
+  int _selectedTab = 0;
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return DefaultTabController(
+      length: 2,
       child: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: AppDimen.MARGIN_MEDIUM_2),
-              child: SearchWidget(
-                imageUrl: '',
-                onTap: () {},
-              ),
-            ),
-            SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
-            ExpandablePageView.builder(
-              controller: _carouselController,
-              // allows our shadow to be displayed outside of widget bounds
-              clipBehavior: Clip.none,
-              itemCount: 6,
-              itemBuilder: (_, index) => AnimatedBuilder(
-                animation: _carouselController,
-                builder: (context, widget) {
-                  if (!_carouselController.position.haveDimensions) {
-                    return const SizedBox();
-                  }
-
-                  return Transform.scale(
-                    scale: max(0.8, 1 - (_carouselController.page! - index).abs() / 3),
-                    child: CarouselBook(),
-                  );
-                },
-              ),
-            ),
-          ],
+        child: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverToBoxAdapter(
+                  child: Column(
+                children: [
+                  SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: AppDimen.MARGIN_MEDIUM_2),
+                    child: SearchWidget(imageUrl: '', onTap: () {}),
+                  ),
+                  SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+                  CarouselPageView(),
+                  SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+                  TabBarSection(onTap: ((tab) => _selectedTab)),
+                ],
+              ))
+            ];
+          },
+          body: TabBarView(children: [
+                OngoingBooks(),
+                CompletedBooks(),
+              ]),
         ),
       ),
     );
@@ -99,26 +94,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-class SearchWidget extends StatelessWidget {
-  const SearchWidget({
+class TabBarSection extends StatelessWidget {
+  const TabBarSection({
     Key? key,
-    required this.imageUrl,
     required this.onTap,
   }) : super(key: key);
-  final imageUrl;
-  final Function onTap;
+
+  final Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap(),
-      child: Container(
-        width: double.infinity,
-        height: 45.0,
-        decoration: BoxDecoration(
-            color: AppColor.primaryBlue,
-            borderRadius: BorderRadius.circular(AppDimen.MARGIN_MEDIUM_2)),
-      ),
+    return Stack(
+      children: [
+        Positioned(
+            left: 0,
+            right: 0,
+            bottom: AppDimen.DIVIDER_HIGHT_N,
+            child: Divider(
+              thickness: AppDimen.MARGIN_ONE,
+            )),
+        Positioned(
+          child: TabBar(
+            labelColor: AppColor.primaryBlue,
+            unselectedLabelColor: AppColor.black30,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorWeight: AppDimen.MARGIN_SMALL,
+            onTap: (index) {
+              onTap(index);
+            },
+            tabs: [
+              Tab(
+                text: 'Ongoing',
+              ),
+              Tab(
+                text: 'Complete',
+              )
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

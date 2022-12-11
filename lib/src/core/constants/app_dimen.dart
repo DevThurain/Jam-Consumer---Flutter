@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppDimen {
   // generic
+  static const MARGIN_ONE = 1.0;
+  static const MARGIN_SMALLER = 2.0;
   static const MARGIN_SMALL = 4.0;
   static const MARGIN_MEDIUM = 8.0;
   static const MARGIN_MEDIUM_2 = 16.0;
@@ -23,4 +25,5 @@ class AppDimen {
 
   // app-specific
   static const ICON_MEDIUM_SIZE = 26.0;
+  static const DIVIDER_HIGHT_N = -6.0;
 }
