@@ -10,7 +10,7 @@ class OngoingBooks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150.0,
+      height: 280.0,
       child: ListView.builder(
           itemCount: 10,
           physics: NeverScrollableScrollPhysics(),
