@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jams/src/core/constants/app_color.dart';
 import 'package:jams/src/core/constants/app_dimen.dart';
+import 'package:jams/src/core/utils/app_utils.dart';
 import 'package:jams/src/features/based_screen/bloc/bottom_navigation_bloc.dart';
 import 'package:jams/src/features/home/home_screen.dart';
 import 'package:jams/src/features/library/library_screen.dart';
@@ -18,6 +19,12 @@ class BasedScreen extends StatefulWidget {
 
 class _BasedScreenState extends State<BasedScreen> {
   final _screenList = [HomeScreen(), LibraryScreen()];
+
+  @override
+  void initState() {
+    AppUtils.setAppBarAndSystemNavigationBarColor(color: Colors.white);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +48,7 @@ class _BasedScreenState extends State<BasedScreen> {
                       width: AppDimen.ICON_MEDIUM_SIZE,
                       color: AppColor.black50,
                     ),
-                    activeIcon:  SvgPicture.asset(
+                    activeIcon: SvgPicture.asset(
                       'assets/images/svgs/home.svg',
                       width: AppDimen.ICON_MEDIUM_SIZE,
                       color: AppColor.primaryBlue,
@@ -54,7 +61,7 @@ class _BasedScreenState extends State<BasedScreen> {
                       width: AppDimen.ICON_MEDIUM_SIZE,
                       color: AppColor.black50,
                     ),
-                    activeIcon:  SvgPicture.asset(
+                    activeIcon: SvgPicture.asset(
                       'assets/images/svgs/library.svg',
                       width: AppDimen.ICON_MEDIUM_SIZE,
                       color: AppColor.primaryBlue,

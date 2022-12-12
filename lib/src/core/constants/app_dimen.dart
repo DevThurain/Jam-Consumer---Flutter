@@ -22,6 +22,8 @@ class AppDimen {
   static const TEXT_HEADING_1X = 24.0;
   static const TEXT_HEADING_2X = 28.0;
   static const TEXT_HEADING_3X = 32.0;
+  static const TEXT_BIG_1X = 40.0;
+  static const TEXT_BIG_2X = 52.0;
 
   // app-specific
   static const ICON_SMALL_SIZE = 20.0;
@@ -30,5 +32,4 @@ class AppDimen {
   static const HEIGHT_COVER_BOOK_LIST = 310.0;
   static const WIDTH_COVER_BOOK_IMAGE = 150.0;
   static const HEIGHT_COVER_BOOK_IMAGE = 180.0;
-
 }

@@ -9,4 +9,6 @@ class AppColor {
   static const grey = Color(0xff9CA8C2);
   static const darkGrey = Color(0xffA9AEB8);
   static const lightWhite = Color(0xffF8FAFB);
+
+  static const loginBackground = Color.fromARGB(255, 245, 241, 241);
 }

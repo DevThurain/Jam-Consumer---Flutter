@@ -25,6 +25,7 @@ dependencies:
   flutter_bloc: ^8.0.0
   flutter_svg: ^1.1.6
   expandable_page_view: ^1.0.17
+  rive: ^0.9.1
 
 
 
@@ -45,3 +46,5 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/images/svgs/
+    - assets/images/pngs/
+    - assets/rive_assets/
