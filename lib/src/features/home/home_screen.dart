@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:jams/src/core/constants/app_color.dart';
 import 'package:jams/src/core/constants/app_constants.dart';
 import 'package:jams/src/core/constants/app_dimen.dart';
+import 'package:jams/src/core/utils/app_utils.dart';
 import 'package:jams/src/features/global/search_widget.dart';
 import 'package:jams/src/features/home/completed_books.dart';
 import 'package:jams/src/features/home/ongoing_books.dart';
@@ -20,9 +21,40 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   final BookDao _bookDao = BookDao();
   int _selectedTab = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    AppUtils.autoStatusBarAndSystemNavigationBarColor();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      print('resume ...');
+      AppUtils.autoStatusBarAndSystemNavigationBarColor();
+    }
+
+    if (state == AppLifecycleState.paused) {
+      print('pause ...');
+    }
+    if (state == AppLifecycleState.inactive) {
+      print('inactive ...');
+    }
+
+    print(AppLifecycleState.values.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ];
           },
           body: TabBarView(children: [
-                OngoingBooks(),
-                CompletedBooks(),
-              ]),
+            OngoingBooks(),
+            CompletedBooks(),
+          ]),
         ),
       ),
     );
@@ -115,7 +147,7 @@ class TabBarSection extends StatelessWidget {
             )),
         Positioned(
           child: TabBar(
-            labelColor: AppColor.primaryBlue,
+            labelColor: AppColor.primaryColor,
             unselectedLabelColor: AppColor.black30,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorWeight: AppDimen.MARGIN_SMALL,

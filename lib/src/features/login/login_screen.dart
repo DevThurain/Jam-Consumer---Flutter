@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -23,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late RiveAnimationController _btnAnimationController;
   @override
   void initState() {
-    AppUtils.setAppBarAndSystemNavigationBarColor(color: AppColor.loginBackground);
+    // AppUtils.autoStatusBarAndSystemNavigationBarColor();
     _btnAnimationController = OneShotAnimation('active', autoplay: false);
     super.initState();
   }
@@ -31,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColor.loginBackground,
       body: Stack(
         children: [
           Positioned(
@@ -60,43 +60,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Image.asset('assets/images/pngs/jam.png',width: 50)
+                      Spacer(),
                       Text(
                         'Read\nbooks\n& collect',
-                        style: TextStyle(
-                            fontSize: AppDimen.TEXT_BIG_2X,
-                            fontWeight: FontWeight.bold,
-                            height: 1.3),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline3
+                            ?.copyWith(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
                       SizedBox(
-                        width: 200.0,
+                        width: 240.0,
                         child: Text(
                           AppConstants.book_quote_1,
-                          style: TextStyle(
-                              fontSize: AppDimen.TEXT_SMALL, height: 1.4, color: AppColor.grey),
+                          style: Theme.of(context).textTheme.bodyText1,
                         ),
                       ),
                       SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
-                      GestureDetector(
+                      Spacer(
+                        flex: 3,
+                      ),
+                      AnimatedButton(
+                        btnAnimationController: _btnAnimationController,
                         onTap: () async {
                           _btnAnimationController.isActive = true;
                           await Future.delayed(Duration(milliseconds: 1000));
+
+                          if (!mounted) return;
                           Navigator.pushNamed(context, BasedScreen.routeName);
                         },
-                        child: SizedBox(
-                          height: 64,
-                          width: 260,
-                          child: Stack(
-                            children: [
-                              Positioned.fill(
-                                  child: RiveAnimation.asset(
-                                'assets/rive_assets/button.riv',
-                                controllers: [_btnAnimationController],
-                              ))
-                            ],
-                          ),
-                        ),
-                      )
+                      ),
+                      SizedBox(height: AppDimen.MARGIN_MEDIUM_3),
+                      Text(
+                        AppConstants.book_quote_1,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Spacer()
                     ],
                   ),
                 ),
@@ -104,6 +103,63 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class AnimatedButton extends StatelessWidget {
+  const AnimatedButton({
+    Key? key,
+    required RiveAnimationController btnAnimationController,
+    required this.onTap,
+  })  : _btnAnimationController = btnAnimationController,
+        super(key: key);
+
+  final RiveAnimationController _btnAnimationController;
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      child: SizedBox(
+        height: 64,
+        width: 260,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              right: AppDimen.MARGIN_LARGE,
+              child: RiveAnimation.asset(
+                'assets/rive_assets/button.riv',
+                controllers: [_btnAnimationController],
+              ),
+            ),
+            Positioned.fill(
+              top: AppDimen.MARGIN_SMALL,
+              right: AppDimen.MARGIN_LARGE,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.chevron_right,
+                    color: AppColor.contentColorLightTheme,
+                  ),
+                  SizedBox(width: AppDimen.MARGIN_MEDIUM),
+                  Text(
+                    'Login to account',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        ?.copyWith(color: AppColor.contentColorLightTheme),
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -35,12 +35,11 @@ class _BasedScreenState extends State<BasedScreen> {
           return Builder(builder: (context) {
             return Scaffold(
               body: _screenList[state.position],
-              backgroundColor: Colors.white,
               bottomNavigationBar: BottomNavigationBar(
                 backgroundColor: Colors.white,
                 selectedFontSize: AppDimen.TEXT_SMALL,
                 unselectedFontSize: AppDimen.TEXT_SMALL,
-                selectedItemColor: AppColor.primaryBlue,
+                selectedItemColor: AppColor.primaryColor,
                 items: [
                   BottomNavigationBarItem(
                     icon: SvgPicture.asset(
@@ -51,7 +50,7 @@ class _BasedScreenState extends State<BasedScreen> {
                     activeIcon: SvgPicture.asset(
                       'assets/images/svgs/home.svg',
                       width: AppDimen.ICON_MEDIUM_SIZE,
-                      color: AppColor.primaryBlue,
+                      color: AppColor.primaryColor,
                     ),
                     label: 'Home',
                   ),
@@ -64,7 +63,7 @@ class _BasedScreenState extends State<BasedScreen> {
                     activeIcon: SvgPicture.asset(
                       'assets/images/svgs/library.svg',
                       width: AppDimen.ICON_MEDIUM_SIZE,
-                      color: AppColor.primaryBlue,
+                      color: AppColor.primaryColor,
                     ),
                     label: 'Library',
                   ),

@@ -17,7 +17,7 @@ void main() async {
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
   await _initializeHive();
-  _setAppBarAndSystemNavigationBarColor();
+  // _setAppBarAndSystemNavigationBarColor();
   runApp(MyApp());
 }
 

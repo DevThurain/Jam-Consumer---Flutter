@@ -31,7 +31,7 @@ class CoverBookList extends StatelessWidget {
                 SvgPicture.asset(
                   'assets/images/svgs/arrow_next.svg',
                   width: AppDimen.ICON_MEDIUM_SIZE,
-                  color: AppColor.primaryBlue,
+                  color: AppColor.primaryColor,
                 )
               ],
             ),

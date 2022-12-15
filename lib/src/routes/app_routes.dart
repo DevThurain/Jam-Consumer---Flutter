@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jams/src/features/based_screen/based_screen.dart';
 import 'package:jams/src/features/home/home_screen.dart';
 import 'package:jams/src/features/login/login_screen.dart';
+import 'package:jams/src/features/test/test_screen.dart';
 
 Route<dynamic> appRouter(RouteSettings routeSettings) {
   return MaterialPageRoute<void>(
@@ -17,8 +18,11 @@ Route<dynamic> appRouter(RouteSettings routeSettings) {
         case LoginScreen.routeName:
           return const LoginScreen();
 
+        case TestScreen.routeName:
+          return const TestScreen();
+
         default:
-          return const LoginScreen();
+          return const TestScreen();
       }
     },
   );

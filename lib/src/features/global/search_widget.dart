@@ -19,7 +19,7 @@ class SearchWidget extends StatelessWidget {
         width: double.infinity,
         height: 45.0,
         decoration: BoxDecoration(
-            color: AppColor.primaryBlue,
+            color: AppColor.primaryColor,
             borderRadius: BorderRadius.circular(AppDimen.MARGIN_MEDIUM_2)),
       ),
     );
