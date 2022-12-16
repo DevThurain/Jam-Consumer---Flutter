@@ -7,6 +7,11 @@ class AppColor {
   static const black30 = Color.fromARGB(180, 0, 0, 0);
   static const primaryColor = Color(0xff0079CA);
   static const secondaryColor = Color(0xffEFA37F);
+  // static const softWhite = Color(0xffF8FAFB);
+  // static const softDark = Color.fromARGB(255, 38, 38, 69);
+  static const vairentDark = Color(0xff222B26);
+  static const vairentWhite = Color(0xffE7F1E9);
+
   static const grey = Color(0xff9CA8C2);
   static const darkGrey = Color(0xffA9AEB8);
   static const lightWhite = Color(0xffF8FAFB);

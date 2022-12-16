@@ -14,9 +14,13 @@ ThemeData lightThemeData(BuildContext context) {
       displayColor: AppColor.contentColorLightTheme,
       bodyColor: AppColor.contentColorLightTheme.withOpacity(0.6),
     ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData().copyWith(
+      backgroundColor: AppColor.white,
+    ),
     colorScheme: ColorScheme.light(
       primary: AppColor.primaryColor,
       secondary: AppColor.secondaryColor,
+      tertiary: AppColor.vairentWhite,
       error: Colors.red,
     ),
   );
@@ -32,9 +36,13 @@ ThemeData darkThemeData(BuildContext context) {
     textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme).apply(
         displayColor: AppColor.contentColorDarkTheme,
         bodyColor: AppColor.contentColorDarkTheme.withOpacity(0.6)),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData().copyWith(
+      backgroundColor: AppColor.contentColorLightTheme,
+    ),
     colorScheme: ColorScheme.dark(
       primary: AppColor.primaryColor,
       secondary: AppColor.secondaryColor,
+      tertiary: AppColor.vairentDark,
       error: Colors.red,
     ),
   );

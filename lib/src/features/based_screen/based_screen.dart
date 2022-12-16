@@ -6,6 +6,7 @@ import 'package:jams/src/core/constants/app_color.dart';
 import 'package:jams/src/core/constants/app_dimen.dart';
 import 'package:jams/src/core/utils/app_utils.dart';
 import 'package:jams/src/features/based_screen/bloc/bottom_navigation_bloc.dart';
+import 'package:jams/src/features/based_state/based_stateful_widget.dart';
 import 'package:jams/src/features/home/home_screen.dart';
 import 'package:jams/src/features/library/library_screen.dart';
 
@@ -17,14 +18,8 @@ class BasedScreen extends StatefulWidget {
   State<BasedScreen> createState() => _BasedScreenState();
 }
 
-class _BasedScreenState extends State<BasedScreen> {
+class _BasedScreenState extends BasedState<BasedScreen> {
   final _screenList = [HomeScreen(), LibraryScreen()];
-
-  @override
-  void initState() {
-    AppUtils.setAppBarAndSystemNavigationBarColor(color: Colors.white);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +31,6 @@ class _BasedScreenState extends State<BasedScreen> {
             return Scaffold(
               body: _screenList[state.position],
               bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: Colors.white,
                 selectedFontSize: AppDimen.TEXT_SMALL,
                 unselectedFontSize: AppDimen.TEXT_SMALL,
                 selectedItemColor: AppColor.primaryColor,

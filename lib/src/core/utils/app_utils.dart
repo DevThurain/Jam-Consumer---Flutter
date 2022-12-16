@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:jams/src/core/constants/app_color.dart';
 
 class AppUtils {
+  // manual setup
   static void setAppBarAndSystemNavigationBarColor(
       {required Color color, Brightness iconBrightness = Brightness.dark}) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -15,6 +16,7 @@ class AppUtils {
         systemStatusBarContrastEnforced: true));
   }
 
+  // auto setup
   static void autoStatusBarAndSystemNavigationBarColor() {
     var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
@@ -34,10 +36,11 @@ class AppUtils {
     }
   }
 
+  // for using with annonated region
   static SystemUiOverlayStyle autoUiOverlayStyle() {
     var brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
-    
+
     if (isDarkMode) {
       return SystemUiOverlayStyle(
           systemNavigationBarColor: AppColor.contentColorLightTheme,

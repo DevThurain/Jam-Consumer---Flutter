@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,9 @@ import 'package:jams/src/core/constants/app_constants.dart';
 import 'package:jams/src/core/constants/app_dimen.dart';
 import 'package:jams/src/core/utils/app_utils.dart';
 import 'package:jams/src/features/based_screen/based_screen.dart';
+import 'package:jams/src/features/based_state/based_stateful_widget.dart';
+import 'package:jams/src/features/global/FilledPasswordTextField.dart';
+import 'package:jams/src/features/global/FilledTextField.dart';
 import 'package:rive/rive.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,11 +24,10 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends BasedState<LoginScreen> {
   late RiveAnimationController _btnAnimationController;
   @override
   void initState() {
-    // AppUtils.autoStatusBarAndSystemNavigationBarColor();
     _btnAnimationController = OneShotAnimation('active', autoplay: false);
     super.initState();
   }
@@ -87,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           await Future.delayed(Duration(milliseconds: 1000));
 
                           if (!mounted) return;
-                          Navigator.pushNamed(context, BasedScreen.routeName);
+                          _openCustomDialog(context);
                         },
                       ),
                       SizedBox(height: AppDimen.MARGIN_MEDIUM_3),
@@ -102,6 +105,111 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  void _openCustomDialog(BuildContext context) {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: '',
+        barrierColor: AppColor.contentColorLightTheme.withOpacity(0.4),
+        pageBuilder: (context, a1, a2) {
+          return Dialog(
+            insetAnimationCurve: Curves.decelerate,
+            insetPadding: EdgeInsets.symmetric(horizontal: AppDimen.MARGIN_MEDIUM_2),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppDimen.MARGIN_MEDIUM_2)),
+            child: LoginDialogSection(),
+          );
+        },
+        transitionDuration: Duration(milliseconds: 600),
+        transitionBuilder: (context, a1, a2, child) {
+          return SlideTransition(
+            position: Tween(begin: Offset(0, -1), end: Offset(0, 0)).animate(a1),
+            child: FadeTransition(
+              opacity: Tween<double>(begin: 0.5, end: 1.0).animate(a1),
+              child: child,
+            ),
+          );
+        });
+  }
+}
+
+class LoginDialogSection extends StatelessWidget {
+  const LoginDialogSection({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: AppDimen.MARGIN_MEDIUM_3,
+        vertical: AppDimen.MARGIN_MEDIUM_3,
+      ),
+      decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(AppDimen.MARGIN_MEDIUM_2)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              'Sign In',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headline5?.copyWith(
+                  fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.headline1?.color),
+            ),
+          ),
+          SizedBox(height: AppDimen.MARGIN_MEDIUM),
+          Text(
+            'Access 200+ of books. Customize your own shelf and save data on cloud.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+          FilledTextField(
+            filledColor: Theme.of(context).colorScheme.tertiary,
+            padding: EdgeInsets.symmetric(vertical: 0, horizontal: AppDimen.MARGIN_MEDIUM),
+            icon: Icon(Icons.alternate_email, color: Theme.of(context).textTheme.bodyText1?.color),
+            radius: AppDimen.MARGIN_MEDIUM,
+            onChanged: (text) {},
+            onImeAction: () {},
+            hintText: 'Email',
+          ),
+          SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+          FilledPasswordTextField(
+            filledColor: Theme.of(context).colorScheme.tertiary,
+            icon: Icon(Icons.password, color: Theme.of(context).textTheme.bodyText1?.color),
+            onChanged: (text) {},
+            onImeAction: () {},
+            radius: AppDimen.MARGIN_MEDIUM,
+            hintText: 'Password',
+          ),
+          SizedBox(height: AppDimen.MARGIN_MEDIUM_2),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel', style: TextStyle(color: AppColor.primaryColor))),
+              SizedBox(width: AppDimen.MARGIN_MEDIUM_2),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, BasedScreen.routeName);
+                },
+                child: Text('Sign in'),
+              ),
+            ],
+          )
         ],
       ),
     );
